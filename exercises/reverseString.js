@@ -29,4 +29,10 @@ function reverse3(str) {
     return resArr.join('');
 }
 
-module.exports = reverse3;
+// option 4
+function reverse4(str) {
+    const strArr = str.split('');
+    return strArr.reduce((acc, val) => val + acc, '');
+}
+
+module.exports = reverse4;
