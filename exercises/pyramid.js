@@ -35,11 +35,11 @@ function pyramid1(n) {
 // Option 2
 // Iterative with building char by char
 function pyramid2(n) {
-    const lineLength = 2 * n - 1;
+  const lineLength = 2 * n - 1;
   for (let row = 1; row <= n; row++) {
     let line = '';
     for (let col = 1; col <= lineLength; col++) {
-      if ((col >= n + 1 - row) && (col <= n - 1 + row)) {
+      if (col >= n + 1 - row && col <= n - 1 + row) {
         line += '#';
       } else {
         line += ' ';
@@ -50,10 +50,44 @@ function pyramid2(n) {
 }
 
 // Option 3
-// Recursive
+// calculating a midpoint and adding
+// row number of # around it
 function pyramid3(n) {
-    
+  const columns = 2 * n - 1;
+  const midpoint = Math.floor(columns / 2);
+  for (let row = 0; row < n; row++) {
+    let line = '';
+    for (let col = 0; col < columns; col++) {
+      // take a midpoint and add row number of # around it
+      if (col >= midpoint - row && col <= midpoint + row) {
+        line += '#';
+      } else {
+        line += ' ';
+      }
+    }
+    console.log(line);
+  }
 }
 
+// Option 4
+// recursive
+function pyramid4(n, row = 0, line = '') {
+    if (row === n) {
+      return;
+    }
+    const totalLength = 2 * n - 1;
+    if (line.length === totalLength) {
+      console.log(line);
+      return pyramid4(n, row + 1);
+    }
+    const midpoint = Math.floor(totalLength / 2);
+    let add;
+    if (midpoint - row <= line.length && midpoint + row >= line.length) {
+      add = '#';
+    } else {
+      add = ' ';
+    }
+    return pyramid4(n, row, line + add);
+  }
 
-module.exports = pyramid2;
+module.exports = pyramid4;
