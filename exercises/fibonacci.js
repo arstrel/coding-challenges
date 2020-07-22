@@ -8,32 +8,56 @@
 // Example:
 //   fib(4) === 3
 
+// with builf-in memoization
 function fibWithMemo(index) {
   const memo = {};
 
-  const calc = num => {
-      if(num === 1 || num === 2) {
-          return 1;
-      }
-      if(memo[num]) {
-          return memo[num];
-      } else {
-          memo[num] = calc(num - 1) + calc(num - 2);
-          return memo[num];
-      }
-  }
+  const calc = (num) => {
+    if (num === 1 || num === 2) {
+      return 1;
+    }
+    if (memo[num]) {
+      return memo[num];
+    } else {
+      memo[num] = calc(num - 1) + calc(num - 2);
+      return memo[num];
+    }
+  };
   return calc(index);
 }
 
-function fib(index) {
-    const result = [1,1];
+// itarative
+// aka bottom-up
+function fibIterative(index) {
+  const result = [1, 1];
 
-    for(let i = 2; i<=index; i++) {
-        result[i] = result[i-1] + result[i-2]
-    }
+  for (let i = 2; i <= index; i++) {
+    result[i] = result[i - 1] + result[i - 2];
+  }
 
-
-    return result[index-1];
+  return result[index - 1];
 }
+
+// with external generic memoization function
+function fib(n) {
+  if (n < 2) {
+    return n;
+  }
+  return fib(n - 1) + fib(n - 2);
+}
+
+function memoize(fn) {
+  const memo = {};
+  return function (...args) {
+    if (memo[args]) {
+      return memo[args];
+    }
+    const result = fn.apply(this, args);
+    memo[args] = result;
+    return result;
+  };
+}
+
+fib = memoize(fib);
 
 module.exports = fib;

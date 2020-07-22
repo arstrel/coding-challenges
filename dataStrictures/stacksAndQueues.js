@@ -9,7 +9,7 @@ class Node {
   
   /*
   Typically for stacks the props are size, start and last
-  And the implementationn is very similar to shoft and unshift in singly
+  And the implementation is very similar to shift and unshift in singly
   linked list
   */
   class Stack {
@@ -43,6 +43,7 @@ class Node {
         this.tail = null;
         const temp = this.head;
         this.head = null;
+        this.length--;
         return temp;
       } 
       const temp = this.tail;
