@@ -15,34 +15,33 @@
 const Stack = require('../dataStrictures/stack');
 
 class Queue {
-    constructor(){
-        this.middleman = new Stack();
-        this.queue = new Stack();
+  constructor() {
+    this.middleman = new Stack();
+    this.queue = new Stack();
+  }
+  add(val) {
+    this.middleman.push(val);
+  }
+  peek() {
+    while (this.middleman.peek()) {
+      this.queue.push(this.middleman.pop());
     }
-    add(val) {
-        this.middleman.push(val);
-        
+    const temp = this.queue.peek();
+    while (this.queue.peek()) {
+      this.middleman.push(this.queue.pop());
     }
-    peek() {
-        while(this.middleman.peek()) {
-            this.queue.push(this.middleman.pop())
-        }
-        const temp = this.queue.peek();
-        while(this.queue.peek()){
-            this.middleman.push(this.queue.pop())
-        }
-       return temp;
+    return temp;
+  }
+  remove() {
+    while (this.middleman.peek()) {
+      this.queue.push(this.middleman.pop());
     }
-    remove(){   
-        while(this.middleman.peek()) {
-            this.queue.push(this.middleman.pop())
-        }
-        const temp = this.queue.pop();
-        while(this.queue.peek()){
-            this.middleman.push(this.queue.pop())
-        }
-        return temp;
+    const temp = this.queue.pop();
+    while (this.queue.peek()) {
+      this.middleman.push(this.queue.pop());
     }
+    return temp;
+  }
 }
 
 module.exports = Queue;
