@@ -3,13 +3,13 @@
 // See 'directions' document
 
 class Node {
-    constructor(data, n = null) {
-      this.data = data;
-      this.next = n;
-    }
+  constructor(data, n = null) {
+    this.data = data;
+    this.next = n;
   }
-  
-  class LinkedList {
+}
+
+class LinkedList {
     constructor() {
       this.head = null;
       this.tail = null;
@@ -46,6 +46,9 @@ class Node {
       this.length = 0;
     }
     removeFirst() {
+      if (!this.head) {
+        return null;
+      }
       const temp = this.head;
       this.head = this.head.next;
       this.length--;
@@ -53,7 +56,7 @@ class Node {
     }
     removeLast() {
       if (this.length === 0) {
-        return undefined;
+        return null;
       }
       let temp = this.tail;
       if (this.length === 1) {
@@ -89,6 +92,9 @@ class Node {
       return this;
     }
     getAt(index) {
+      if (index < 0) {
+        return null;
+      }
       if (index > this.length) {
         return null;
       } else if (index === 0) {
@@ -100,6 +106,7 @@ class Node {
         record = record.next;
         counter++;
       }
+  
       return record;
     }
     removeAt(index) {
@@ -116,6 +123,7 @@ class Node {
       } else if (index === 1) {
         record = this.head.next;
         this.head.next = record.next;
+        this.length--;
       } else {
         let prev = this.head;
         let current = this.head.next;
@@ -127,6 +135,7 @@ class Node {
         }
         record = current;
         prev.next = current.next;
+        this.length--;
       }
       return record;
     }
@@ -150,35 +159,42 @@ class Node {
       }
     }
     forEach(fn) {
-      if (this.length === 0) {
-        return false;
-      } else {
-        let record = this.head;
-        let index = 0;
-        while (record) {
-          fn(record, index);
-          index++;
-          record = record.next;
-        }
+      let record = this.head;
+      let index = 0;
+      while (record) {
+        fn(record, index);
+        index++;
+        record = record.next;
       }
     }
-    [Symbol.iterator]() {
-      let index = -1;
-      const ctx = this;
-      const iter = {
-        next() {
-          index++;
-          if (index >= ctx.length) {
-            return { value: ctx.getAt(index), done: true };
-          } else {
-            return { value: ctx.getAt(index), done: false };
-          }
-        },
-      };
+    // With iterator
+    //   [Symbol.iterator]() {
+    //     let index = -1;
+    //     const ctx = this;
+    //     const iter = {
+    //       next() {
+    //         index++;
+    //         if (index >= ctx.length) {
+    //           return { value: ctx.getAt(index), done: true };
+    //         } else {
+    //           return { value: ctx.getAt(index), done: false };
+    //         }
+    //       },
+    //     };
   
-      return iter;
+    //     return iter;
+    //   }
+  
+    // Or with generator iterator function
+  
+    *[Symbol.iterator]() {
+      let record = this.head;
+      while (record) {
+        yield record;
+        record = record.next;
+      }
+      //   when there is no more code { done: true } is returned automatically
     }
   }
-  
-  module.exports = { Node, LinkedList };
-  
+
+module.exports = { Node, LinkedList };
